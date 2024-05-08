@@ -8,4 +8,4 @@ ng deploy --base-href=/portal-restaurant/
 
 
 # web
-[Website](https://dattp6501.github.io/portal-restaurant/)
+[Website](https://portal-restaurant.dattpmars.com/)

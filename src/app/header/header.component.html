@@ -1,8 +1,8 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
   
-      <a href="home" class="logo d-flex align-items-center me-auto me-lg-0">
-        <img src="../assets/img/app/logo.ico" alt="">
+      <a routerLink="/home" class="logo d-flex align-items-center me-auto me-lg-0">
+        <img src="assets/logo.png" alt="">
         <h1>Dattpmars<span>.</span></h1>
       </a>
   
@@ -10,7 +10,7 @@
         <ul>
           <li><a routerLink="/dish" [routerLinkActive]="'active'">Dish</a></li>
           <li><a routerLink="/table" [routerLinkActive]="'active'">Table</a></li>
-          <li><a href="events">Events</a></li>
+          <li><a routerLink="/events">Events</a></li>
           <li><a href="">Chefs</a></li>
           <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
             <ul>
@@ -29,13 +29,11 @@
               <li><a href="#">Drop Down 4</a></li>
             </ul>
           </li>
-          <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
-  
-      <a class="btn-book-a-table" href="table">Book a Table</a>
-      <a href="cart"><i class="bi bi-cart-fill avatar icon-button"></i></a>
-      <a href="profile"><i class="bi bi-person-circle avatar icon-button"></i></a>
-      <a class="btn-book-a-table" href="login">Login</a>
+
+      <a routerLink="/profile"><i class="bi bi-person-circle avatar icon-button"></i></a>
+      <a class="btn-book-a-table" routerLink="/login" *ngIf="!isAuthenticated">Login</a>
+      <a class="btn-book-a-table" routerLink="/logout" *ngIf="isAuthenticated">Logout</a>
     </div>
   </header>

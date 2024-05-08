@@ -1,3 +1,4 @@
+<app-header *ngIf="!hideHeader"></app-header>
 <div class="app-container" [ngClass]="{'non-header': hideHeader}">
   <router-outlet></router-outlet>
 </div>
