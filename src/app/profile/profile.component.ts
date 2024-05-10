@@ -1,6 +1,6 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from '../service/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { User } from '../model/User';
 
 @Component({
   selector: 'app-profile',
@@ -8,18 +8,18 @@ import { User } from '../model/User';
   styleUrl: './profile.component.css'
 })
 export class ProfileComponent implements OnInit{
-  user? : User | undefined;
-  constructor(private AuthService: AuthService){
+  constructor(private spinner: NgxSpinnerService, private AuthService: AuthService){
     
   }
   ngOnInit(): void {
+    this.spinner.show();
     this.getProfile();
   }
 
   getProfile(){
-    let user = this.AuthService.getUserInfoLocal();
-    this.AuthService.getProfile(user?.accessToken+'',(user)=>{
-      console.log(user);
+    let accessToken = this.AuthService.getAccessToken();
+    this.AuthService.getProfile(accessToken,(user)=>{
+      this.spinner.hide();
     });
   }
 }

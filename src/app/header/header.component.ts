@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../service/auth.service';
+import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-header',
@@ -7,11 +9,20 @@ import { AuthService } from '../service/auth.service';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit{
-  isAuthenticated: boolean = false;
-  constructor(private authService: AuthService){}
+
+  constructor(private spinner: NgxSpinnerService, public authService: AuthService, private router: Router){
+
+  }
   ngOnInit(): void {
-    this.isAuthenticated = this.authService.isAuthenticatedUser();
+    
   }
 
+  logout(){
+    this.spinner.show();
+    this.authService.logout(this.authService.getAccessToken(),(data)=>{
+      this.spinner.hide();
+      this.router.navigate(['/login'], {});
+    });
+  }
 }
 

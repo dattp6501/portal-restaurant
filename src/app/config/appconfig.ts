@@ -16,8 +16,7 @@
 // };
 
 export const appconfig = {
-    timeout_toastr: 3000,
-    production: false,
-    host_auth: 'https://auth-restaurant-api.dattpmars.com',
-    host_product: "https://product-restaurant-api.dattpmars.com"
+    HOST_AUTH: 'https://auth.api.restaurant.dattpmars.com',
+    HOST_PRODUCT: "https://product.api.restaurant.dattpmars.com"
+    // HOST_PRODUCT: 'http://localhost:9001'
 };

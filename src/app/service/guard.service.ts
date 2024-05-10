@@ -7,15 +7,16 @@ import { AuthService } from './auth.service';
     providedIn: 'root'
 })
 class Authentication {
-
-    constructor(private router: Router, private AuthService: AuthService) {}
+    constructor(private router: Router, private authService: AuthService) {}
 
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-        if(this.AuthService.isAuthenticatedUser()){
+        if(this.authService.isAuthenticatedUser()){
             return true;
         }else{
-            this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
-            return false;
+            this.authService.getProfile(this.authService.getAccessToken(),(data)=>{
+                
+            })
+            return true;
         }
     }
 }

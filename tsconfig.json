@@ -25,7 +25,8 @@
     "paths": {
       "@appconfig/*": ["./src/app/config/*"],
       // "@environments/*": ["src/environments/*"]
-    }
+    },
+    "strictPropertyInitialization": false,
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

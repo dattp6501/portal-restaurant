@@ -1,18 +1,18 @@
 import { appconfig } from '@appconfig/appconfig'
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
-import { User } from '../model/User';
+import { HandleErrorResponse } from './HandleErrorResponse';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-	// private userSubject: BehaviorSubject<User | null>;
-	// public user: Observable<User | null>;
+	private isAuthenticated:boolean = false;
+	public PROFILE: any;
 
-	constructor(private router: Router, private http: HttpClient) {
-		// this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
-		// this.user = this.userSubject.asObservable();
+	constructor(private handleError: HandleErrorResponse, private http: HttpClient) {
+		this.PROFILE = {
+			"username": "",
+			"avatar": "",
+		}
 	}
 
 	getProfile(accesToken: String, successCallback: (data: any) => void) {
@@ -20,18 +20,13 @@ export class AuthService {
 			'Content-Type': 'application/json',
 			"access_token": accesToken + ""
 		});
-		return this.http.get<any>(`${appconfig.host_auth}/api/user/detail`, { headers }).subscribe({
+		return this.http.get<any>(`${appconfig.HOST_AUTH}/api/user/detail`, { headers }).subscribe({
 			next: (data: any) => {
+				this.PROFILE = data.data;
 				successCallback(data.data);
 			},
 			error: (error) => {
-				if (error.status == 401) {
-
-				} else if (error.status == 403) {
-
-				} else {
-					// this.toastr.error(error.message);
-				}
+				this.handleError.handle(error);
 			},
 			// complete() {
 			// },
@@ -42,86 +37,56 @@ export class AuthService {
 		const headers = new HttpHeaders({
 			'Content-Type': 'application/json', // Có thể thay đổi loại nội dung nếu cần
 		});
-		return this.http.post<any>(`${appconfig.host_auth}/api/user/login`, reqData, { headers }).subscribe({
+		return this.http.post<any>(`${appconfig.HOST_AUTH}/api/user/login`, reqData, { headers }).subscribe({
 			next: (data: any) => {
-				localStorage.setItem("isAuthenticated", "true");
+				localStorage.setItem("accessToken", data.data.accessToken);
+				localStorage.setItem("refreshToken", data.data.refreshToken);
+				this.isAuthenticated = true;
 				successCallback(data.data);
 			},
 			error: (error) => {
-				if (error.status == 401) {
-					// this.toastr.error(error.message);
-				} else if (error.status == 403) {
-					// this.toastr.error(error.message);
-				} else {
-					// this.toastr.error(error.message);
-				}
+				this.handleError.handle(error);
 			},
 			// complete() {
 			// },
 		});
 	}
 
-	logout(accesToken: String, successCallback: (resp: any) => void) {
+	logout(acccessToken: any, successCallback: (resp: any) => void) {
 		const headers = new HttpHeaders({
 			'Content-Type': 'application/json',
-			'access_token': accesToken+''
+			'access_token': acccessToken
 		});
-		return this.http.post<any>(`${appconfig.host_auth}/api/user/logout`, { headers }).subscribe({
+		return this.http.post<any>(`${appconfig.HOST_AUTH}/api/user/logout`,{}, { headers }).subscribe({
 			next: (data: any) => {
-				localStorage.removeItem("isAuthenticated");
-				localStorage.removeItem("userInfo");
+				localStorage.removeItem("accessToken");
+				localStorage.removeItem("refreshToken");
 				successCallback(data);
 			},
 			error: (error) => {
-				if (error.status == 401) {
-					// this.toastr.error(error.message);
-				} else if (error.status == 403) {
-					// this.toastr.error(error.message);
-				} else {
-					// this.toastr.error(error.message);
-				}
+				localStorage.removeItem("accessToken");
+				localStorage.removeItem("refreshToken");
+				successCallback(error);
 			},
 			// complete() {
 			// },
 		});
-	}
-
-	getUserInfoLocal() {
-		let user = new User();
-		let data = localStorage.getItem("userInfo");
-		if (data == null) return null;
-		let userInfo = JSON.parse(data);
-		user.id = userInfo.id;
-		user.username = userInfo.username;
-		user.accessToken = userInfo.accessToken;
-		user.refreshToken = userInfo.refreshToken;
-		user.avatar = userInfo.avatar;
-		return user;
 	}
 
 	refreshToken(successCallback: (resp: any) => void) {
 		const headers = new HttpHeaders({
 			'Content-Type': 'application/json', // Có thể thay đổi loại nội dung nếu cần
 		});
-		let user = this.getUserInfoLocal();
-		if (user == null) return;
+		let refreshToken = localStorage.getItem("refreshToken");
 		let reqData = {
-			"userId": user.id,
-			"refreshToken": user.refreshToken
+			"refreshToken": refreshToken
 		};
-		return this.http.post<any>(`${appconfig.host_auth}/api/user/refresh_token`, reqData, { headers }).subscribe({
+		return this.http.post<any>(`${appconfig.HOST_AUTH}/api/user/refresh_token`, reqData, { headers }).subscribe({
 			next: (data: any) => {
-				localStorage.setItem("isAuthenticated", "true");
 				successCallback(data.data);
 			},
 			error: (error) => {
-				if (error.status == 401) {
-					// this.toastr.error(error.message);
-				} else if (error.status == 403) {
-					// this.toastr.error(error.message);
-				} else {
-					// this.toastr.error(error.message);
-				}
+				this.handleError.handle(error);
 			},
 			// complete() {
 			// },
@@ -129,7 +94,17 @@ export class AuthService {
 	}
 
 	isAuthenticatedUser(): boolean {
-		let result = localStorage.getItem("isAuthenticated");
-		return result == "true";
+		return this.isAuthenticated;
+	}
+
+	getAccessToken(){
+		let accessToken = localStorage.getItem("accessToken");
+		this.handleError.checkaccessToken(accessToken);
+		return accessToken+"";
+	}
+
+	removeAllStorage(){
+		localStorage.removeItem("accessToken");
+		localStorage.removeItem("refreshToken");
 	}
 }

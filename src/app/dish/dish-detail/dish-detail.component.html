@@ -1,0 +1,54 @@
+<div class="container-fluid px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
+    <a class="btn btn-outline-dark" routerLink="/dish" role="button"><i class="fa-solid fa-arrow-left"></i>Back</a>
+    <div class="card card0 border-0">
+        <div class="row d-flex">
+            <div class="col-lg-6">
+                <div class="card1 pb-5">
+                    <div class="row px-3 justify-content-center mt-4 mb-5 border-line">
+                        <img [src]="fd['image'].value" class="image">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <form id="dishForm" [formGroup]="dishForm" (ngSubmit)="updateDish()">
+                    <div class="card2 card border-0 px-4 py-5">
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Name</h6>
+                            </label>
+                            <input formControlName="name" class="mb-4" type="text" name="name" placeholder="">
+                        </div>
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Image url</h6>
+                            </label>
+                            <input formControlName="image" type="text" name="image" placeholder="">
+                        </div>
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Price</h6>
+                            </label>
+                            <input formControlName="price" type="number" name="price" placeholder="">
+                        </div>
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">State</h6>
+                            </label>
+                            <input formControlName="state" type="text" name="state" placeholder="">
+                        </div>
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Description</h6>
+                            </label>
+                            <textarea name="description" formControlName="description" rows="4">
+                        </textarea>
+                        </div>
+                        <div class="row mb-3 px-3">
+                            <button type="submit" form="dishForm" class="btn btn-blue text-center">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

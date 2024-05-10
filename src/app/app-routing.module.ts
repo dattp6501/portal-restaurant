@@ -4,12 +4,15 @@ import { LoginComponent } from './login/login.component';
 import { DishComponent } from './dish/dish.component';
 import { TableComponent } from './table/table.component';
 import { ProfileComponent } from './profile/profile.component';
+import { AuthGuard } from './service/guard.service';
+import { DishDetailComponent } from './dish/dish-detail/dish-detail.component';
 
 const routes: Routes = [
   {path:"login", component: LoginComponent},
-  {path:"dish", component: DishComponent},
-  {path:"table", component: TableComponent},
-  {path:"profile", component: ProfileComponent},
+  {path:"dish", component: DishComponent, canActivate:[AuthGuard]},
+  {path:"dish/:dish_id", component: DishDetailComponent, canActivate:[AuthGuard]},
+  {path:"table", component: TableComponent, canActivate:[AuthGuard]},
+  {path:"profile", component: ProfileComponent, canActivate:[AuthGuard]},
   {path: '**', redirectTo: 'login' }
 ];
 

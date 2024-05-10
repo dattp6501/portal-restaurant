@@ -11,6 +11,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { DishComponent } from './dish/dish.component';
 import { TableComponent } from './table/table.component';
 import { ProfileComponent } from './profile/profile.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { DishDetailComponent } from './dish/dish-detail/dish-detail.component';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -20,15 +26,23 @@ import { ProfileComponent } from './profile/profile.component';
     LoginComponent,
     DishComponent,
     TableComponent,
-    ProfileComponent
+    ProfileComponent,
+    TableComponent,
+    DishDetailComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    MatTableModule, 
+    MatPaginatorModule,
+    NgxSpinnerModule,
+    BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [
+    provideAnimationsAsync()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -4,3 +4,12 @@
 .icon-button{
     font-size: 25px;
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.icon-button-edit{
+    background-color: rgb(255, 255, 0);
+}
+
+.spinner-page{
+    background-color: rgba(63, 52, 52, 0.3);
+}
