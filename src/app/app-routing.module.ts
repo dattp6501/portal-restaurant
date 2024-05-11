@@ -17,7 +17,7 @@ const routes: Routes = [
   {path:"table/:table_id", component: TableDetailComponent, canActivate:[AuthGuard]},
   {path:"profile", component: ProfileComponent, canActivate:[AuthGuard]},
   {path:"dashboard", component: DashboardComponent, canActivate:[AuthGuard]},
-  {path: '**', redirectTo: 'login' }
+  {path: '**', redirectTo: 'dashboard' }
 ];
 
 @NgModule({
