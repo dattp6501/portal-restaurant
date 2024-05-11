@@ -1,3 +1,10 @@
-table {
-    width: 100%;
-  }
+.btn-custom{
+  color: #fff;
+  background: rgba(206, 18, 18, 0.8);
+  cursor: pointer;
+}
+.btn-custom:hover {
+  color: #fff;
+  background: rgba(153, 4, 4, 0.8);
+  transition: 0.3s;
+}

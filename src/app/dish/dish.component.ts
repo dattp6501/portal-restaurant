@@ -57,4 +57,8 @@ export class DishComponent implements OnInit, AfterViewInit{
   editDish(dishId: any){
     this.router.navigate(['/dish/'+dishId], {});
   }
+
+  createDish(){
+    this.router.navigate(['/dish/new'], {});
+  }
 }

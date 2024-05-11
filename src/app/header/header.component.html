@@ -8,6 +8,7 @@
   
       <nav id="navbar" class="navbar">
         <ul>
+          <li><a routerLink="/dashboard" [routerLinkActive]="'active'">Dashboard</a></li>
           <li><a routerLink="/dish" [routerLinkActive]="'active'">Dish</a></li>
           <li><a routerLink="/table" [routerLinkActive]="'active'">Table</a></li>
           <li><a routerLink="/events">Events</a></li>
@@ -33,7 +34,7 @@
       </nav>
 
       <a routerLink="/profile"><i class="bi bi-person-circle avatar icon-button"></i>{{this.authService.PROFILE.username}}</a>
-      <a class="btn-book-a-table" routerLink="/login" *ngIf="!this.authService.isAuthenticatedUser">Login</a>
-      <a class="btn-book-a-table" (click)="logout()" *ngIf="this.authService.isAuthenticatedUser">Logout</a>
+      <a class="btn-book-a-table" routerLink="/login" *ngIf="!this.authService.isAuthenticated">Login</a>
+      <a class="btn-book-a-table" (click)="logout()" *ngIf="this.authService.isAuthenticated">Logout <i class="fa-solid fa-right-from-bracket"></i></a>
     </div>
   </header>

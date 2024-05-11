@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DishService } from '../../service/dish.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -11,14 +11,23 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class DishDetailComponent implements OnInit{
   dishForm!: FormGroup;
-  constructor(private route: ActivatedRoute, private spinner: NgxSpinnerService, private dishService: DishService, private formBuilder: FormBuilder){
-
+  public isCreate:boolean=true;
+  constructor(private router: Router, private route: ActivatedRoute, private spinner: NgxSpinnerService, private dishService: DishService, private formBuilder: FormBuilder){
+    this.dishForm = this.mapDishToForm(null);
   }
   ngOnInit(): void {
-    this.spinner.show();
     this.route.params.subscribe(params => {
       const id = params['dish_id'];
-      this.getDishDetail(id);
+      if(id=='new'){
+        this.dishForm = this.mapDishToForm(null);
+      }else if(parseInt(id)){
+        this.isCreate = false;
+        this.spinner.show();
+        this.getDishDetail(id);
+      }else{
+        this.router.navigate(['/dish'], {});
+      }
+      
     });
   }
 
@@ -32,9 +41,17 @@ export class DishDetailComponent implements OnInit{
   updateDish(){
     this.spinner.show();
     let dishReq = this.mapFormToDish(this.dishForm);
-    this.dishService.updateDish(dishReq,(respData)=>{
-      this.spinner.hide();
-    })
+    if(this.isCreate){
+      this.dishService.createDish(dishReq,(respData)=>{
+        this.spinner.hide();
+        this.router.navigate(['/dish'], {});
+      });
+    }else{
+      this.dishService.updateDish(dishReq,(respData)=>{
+        this.spinner.hide();
+        this.ngOnInit();
+      });
+    }
   }
 
   mapFormToDish(dishForm: FormGroup){
@@ -50,16 +67,28 @@ export class DishDetailComponent implements OnInit{
   }
 
   mapDishToForm(dish: any){
-    return this.formBuilder.group({
-      id: [dish.id],
-      name: [dish.name, Validators.required],
-      image: [dish.image, Validators.required],
-      price: [dish.price, Validators.required],
-      state: [dish.state, Validators.required],
-      description: [dish.description],
-      createAt: [dish.createAt],
-      updateAt: [dish.updateAt]
-    });
+    if(dish == undefined || dish == null){
+      return this.formBuilder.group({
+        id: [-1],
+        name: ['', Validators.required],
+        image: ['', Validators.required],
+        price: [0, Validators.required],
+        state: ['INACTIVE', Validators.required],
+        description: ['']
+      });
+    }else{
+      return this.formBuilder.group({
+        id: [dish.id],
+        name: [dish.name, Validators.required],
+        image: [dish.image, Validators.required],
+        price: [dish.price, Validators.required],
+        state: [dish.state, Validators.required],
+        description: [dish.description],
+        createAt: [dish.createAt],
+        updateAt: [dish.updateAt]
+      });
+    }
+    
   }
 
 }

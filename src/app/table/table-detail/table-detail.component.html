@@ -1,16 +1,16 @@
 <div class="container-fluid px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
-    <a class="btn btn-outline-dark" routerLink="/dish" role="button"><i class="fa-solid fa-arrow-left"></i>Back</a>
+    <a class="btn btn-outline-dark" routerLink="/table" role="button"><i class="fa-solid fa-arrow-left"></i>Back</a>
     <div class="card card0 border-0">
         <div class="row d-flex">
             <div class="col-lg-6">
                 <div class="card1 pb-5">
                     <div class="row px-3 justify-content-center mt-4 mb-5 border-line">
-                        <img [src]="fd['image'].value" class="image">
+                        <img [src]="ft['image'].value" class="image">
                     </div>
                 </div>
             </div>
             <div class="col-lg-6">
-                <form id="dishForm" [formGroup]="dishForm" (ngSubmit)="updateDish()">
+                <form id="dishForm" [formGroup]="tableForm" (ngSubmit)="updateTable()">
                     <div class="card2 card border-0 px-4 py-5">
                         <div class="row px-3">
                             <label class="mb-1">
@@ -20,9 +20,27 @@
                         </div>
                         <div class="row px-3">
                             <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Size</h6>
+                            </label>
+                            <input formControlName="amountOfPeople" class="mb-4" type="number" name="amountOfPeople" placeholder="">
+                        </div>
+                        <div class="row px-3">
+                            <label class="mb-1">
                                 <h6 class="mb-0 text-sm">Image url</h6>
                             </label>
                             <input formControlName="image" type="text" name="image" placeholder="">
+                        </div>
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">From</h6>
+                            </label>
+                            <input formControlName="from" type="text" name="from" placeholder="">
+                        </div>
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">To</h6>
+                            </label>
+                            <input formControlName="to" type="text" name="to" placeholder="">
                         </div>
                         <div class="row px-3">
                             <label class="mb-1">

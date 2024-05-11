@@ -14,7 +14,7 @@ export class HeaderComponent implements OnInit{
 
   }
   ngOnInit(): void {
-    
+    this.checkIsLogin();
   }
 
   logout(){
@@ -23,6 +23,21 @@ export class HeaderComponent implements OnInit{
       this.spinner.hide();
       this.router.navigate(['/login'], {});
     });
+  }
+
+  checkIsLogin(){
+    let accessToken = this.authService.getAccessToken();
+    if(accessToken){
+      this.spinner.show();
+      this.authService.getProfile(accessToken,(respData)=>{
+        this.spinner.hide();
+        this.authService.PROFILE = respData;
+        this.authService.isAuthenticated = true;
+      }, (error)=>{
+        this.spinner.hide();
+        this.authService.isAuthenticated = false;
+      })
+    }
   }
 }
 

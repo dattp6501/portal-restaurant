@@ -16,7 +16,10 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { DishDetailComponent } from './dish/dish-detail/dish-detail.component';
 import { NgxSpinnerModule } from "ngx-spinner";
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { TableDetailComponent } from './table/table-detail/table-detail.component';
+import { ToastrModule, provideToastr } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     TableComponent,
     ProfileComponent,
     TableComponent,
-    DishDetailComponent
+    DishDetailComponent,
+    DashboardComponent,
+    TableDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -38,10 +43,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatTableModule, 
     MatPaginatorModule,
     NgxSpinnerModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    provideAnimations(),
+    provideToastr()
   ],
   bootstrap: [AppComponent]
 })

@@ -8,18 +8,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrl: './profile.component.css'
 })
 export class ProfileComponent implements OnInit{
-  constructor(private spinner: NgxSpinnerService, private AuthService: AuthService){
+  constructor(private spinner: NgxSpinnerService, private authService: AuthService){
     
   }
   ngOnInit(): void {
-    this.spinner.show();
     this.getProfile();
   }
 
   getProfile(){
-    let accessToken = this.AuthService.getAccessToken();
-    this.AuthService.getProfile(accessToken,(user)=>{
-      this.spinner.hide();
-    });
+    let accessToken = this.authService.getAccessToken();
+
   }
 }

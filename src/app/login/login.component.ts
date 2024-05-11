@@ -35,10 +35,8 @@ export class LoginComponent implements OnInit{
       "password": this.f['password'].value
     };
     this.authService.login(reqData,(respData)=>{
-      this.authService.getProfile(respData.accessToken, (userResp)=>{
-        this.spinner.hide();
-        this.router.navigate(['/profile'], {});
-      })
+      this.spinner.hide();
+        this.router.navigate(['/dish'], {});
     });
   }
 }

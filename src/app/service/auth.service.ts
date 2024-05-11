@@ -5,7 +5,7 @@ import { HandleErrorResponse } from './HandleErrorResponse';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-	private isAuthenticated:boolean = false;
+	public isAuthenticated:boolean = false;
 	public PROFILE: any;
 
 	constructor(private handleError: HandleErrorResponse, private http: HttpClient) {
@@ -15,7 +15,7 @@ export class AuthService {
 		}
 	}
 
-	getProfile(accesToken: String, successCallback: (data: any) => void) {
+	getProfile(accesToken: String, successCallback: (data: any) => void, errorCallback: (data: any) => void) {
 		const headers = new HttpHeaders({
 			'Content-Type': 'application/json',
 			"access_token": accesToken + ""
@@ -27,6 +27,7 @@ export class AuthService {
 			},
 			error: (error) => {
 				this.handleError.handle(error);
+				errorCallback(error);
 			},
 			// complete() {
 			// },
@@ -91,10 +92,6 @@ export class AuthService {
 			// complete() {
 			// },
 		});
-	}
-
-	isAuthenticatedUser(): boolean {
-		return this.isAuthenticated;
 	}
 
 	getAccessToken(){

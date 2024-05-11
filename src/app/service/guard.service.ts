@@ -10,14 +10,15 @@ class Authentication {
     constructor(private router: Router, private authService: AuthService) {}
 
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-        if(this.authService.isAuthenticatedUser()){
-            return true;
-        }else{
-            this.authService.getProfile(this.authService.getAccessToken(),(data)=>{
+        return true;
+        // if(this.authService.isAuthenticatedUser()){
+        //     return true;
+        // }else{
+        //     this.authService.getProfile(this.authService.getAccessToken(),(data)=>{
                 
-            })
-            return true;
-        }
+        //     })
+        //     return true;
+        // }
     }
 }
 
